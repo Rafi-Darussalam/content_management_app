@@ -1,36 +1,22 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { signIn } from "@/lib/auth-client";
 import { GoogleIcon } from "@/components/icons/google-icon";
 import { Spinner } from "@/components/ui/spinner";
+import { useSocialLogin } from "../hooks/use-social-login";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export function SignInGoggle() {
-  const [loading, setLoading] = useState(false);
+  const {loading, error, login} = useSocialLogin('google')
 
-  async function handleSignIn() {
-    await signIn.social(
-      {
-        provider: "google",
-      },
-      {
-        onRequest: () => {
-          setLoading(true);
-        },
-
-        onSuccess: () => {
-          setLoading(false);
-        },
-
-        onError: () => {
-          setLoading(false);
-        },
-      },
-    );
-  }
+  useEffect(() => {
+    if (error) {
+        toast.error(error)
+    }
+  }, [error])
 
   return (
-    <Button onClick={handleSignIn} className="flex flex-1" variant='outline'>
+    <Button onClick={login} className="flex flex-1" variant='outline'>
       {loading ? (
         <Spinner />
       ) : (

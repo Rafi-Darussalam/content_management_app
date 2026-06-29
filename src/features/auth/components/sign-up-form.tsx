@@ -13,17 +13,28 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { signUp } from "../actions/sign-up";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthResponse } from "../types";
 import { useRouter } from "next/navigation";
-import { Spinner } from "@/components/ui/spinner"
+import { Spinner } from "@/components/ui/spinner";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export function SignUpForm() {
-    const [result, setResult] = useState<AuthResponse | null>(null)
-    const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<AuthResponse | null>(null);
+  const [loading, setLoading] = useState(false);
 
-    const router = useRouter()
+  useEffect(() => {
+    if (result && result?.success) {
+      toast.success(result?.message)
+    }
+
+    if (result && !result?.success) {
+      toast.error(result?.message)
+    }
+  }, [result])
+
+  const router = useRouter();
 
   const form = useForm<SignupForm>({
     resolver: zodResolver(signupSchema),
@@ -35,21 +46,23 @@ export function SignUpForm() {
   });
 
   async function onSubmit(formData: SignupForm) {
-    setLoading(true)
-    const data = new FormData()
+    setLoading(true);
+    const data = new FormData();
 
-    data.append("name", formData.name)
-    data.append("email", formData.email)
-    data.append("password", formData.password)
-    data.append("confirmPassword", formData.confirmPassword)
+    data.append("name", formData.name);
+    data.append("email", formData.email);
+    data.append("password", formData.password);
+    data.append("confirmPassword", formData.confirmPassword);
 
-    const res: AuthResponse = await signUp(data)
+    const res: AuthResponse = await signUp(data);
 
     if (res.success) {
-      router.push(`verify-email?email=${encodeURIComponent(res.email!)}`)
+      router.push(`verify-email?email=${encodeURIComponent(res.email!)}`);
     }
 
-    setLoading(false)
+    setResult(res)
+
+    setLoading(false);
   }
 
   return (
@@ -144,7 +157,10 @@ export function SignUpForm() {
 
       <p className="mt-8 text-muted-foreground text-sm text-center">
         Sudah punya akun{" "}
-        <Link className="underline underline-offset-4 hover:text-primary" href="/sign-in">
+        <Link
+          className="underline underline-offset-4 hover:text-primary"
+          href="/sign-in"
+        >
           Sign in
         </Link>{" "}
       </p>

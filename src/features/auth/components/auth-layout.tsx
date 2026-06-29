@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { FloatingPaths } from "@/components/ui/floating-paths";
 import { ChevronLeftIcon } from "lucide-react";
+import Link from "next/link";
 
 export function AuthLayout({
 	children
@@ -32,10 +33,10 @@ export function AuthLayout({
 			</div>
 			<div className="relative flex min-h-screen flex-col justify-center px-8">
 				<Button asChild className="absolute top-7 left-5" variant="ghost">
-					<a href="#">
+					<Link href="/">
 						<ChevronLeftIcon data-icon="inline-start" />
-						Home
-					</a>
+						Back
+					</Link>
 				</Button>
 
 				<div className="mx-auto pt-14 pb-6 sm:w-sm">

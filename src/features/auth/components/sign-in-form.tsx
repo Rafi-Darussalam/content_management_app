@@ -14,17 +14,28 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { signIn } from "../actions/sign-in";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthResponse } from "../types";
 import { useRouter } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
 import Link from "next/link";
 import { SignInGoggle } from "./sign-in-goggle";
 import { SignInGithub } from "./sign-in-github";
+import { toast } from "sonner";
 
 export function SignInForm() {
   const [result, setResult] = useState<AuthResponse | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+      if (result && result?.success) {
+        toast.success(result?.message)
+      }
+  
+      if (result && !result?.success) {
+        toast.error(result?.message)
+      }
+    }, [result])
 
   const router = useRouter();
 
@@ -44,6 +55,12 @@ export function SignInForm() {
     data.append("password", formData.password);
 
     const res: AuthResponse = await signIn(data);
+
+    if (res.success) {
+      router.push('/dashboard')
+    }
+
+    setResult(res)
 
     setLoading(false);
   }

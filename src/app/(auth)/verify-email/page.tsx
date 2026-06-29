@@ -1,7 +1,9 @@
-export default function VerifyEmail() {
-    return (
-        <div>
-            verifying
-        </div>
-    )
+import { VerifyEmail } from "@/features/auth/components/verify-email";
+
+export default function VerifyEmailPage() {
+  return (
+    <div>
+      <VerifyEmail />
+    </div>
+  );
 }

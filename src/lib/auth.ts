@@ -30,7 +30,7 @@ export const auth = betterAuth({
         to: "rafidarussalam80@gmail.com",
         subject: "Sign-up attempt with your email",
         html: `<h1>Someone tried to create an account using your email address. If this was you, try signing in instead. If not, you can safely ignore this email.</h1>`,
-      });
+      })
     },
   },
   emailVerification: {
@@ -52,4 +52,9 @@ export const auth = betterAuth({
     organization(),
     nextCookies(),
   ],
+  rateLimit: {
+    enabled: true,
+    window: 60,
+    max: 100
+  }
 });

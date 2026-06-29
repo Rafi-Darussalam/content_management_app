@@ -1,36 +1,22 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { signIn } from "@/lib/auth-client";
+import { useSocialLogin } from "../hooks/use-social-login";
 import { GithubIcon } from "@/components/icons/github-icon";
 import { Spinner } from "@/components/ui/spinner";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 export function SignInGithub() {
-  const [loading, setLoading] = useState(false);
+  const {error, login, loading} = useSocialLogin('github')
 
-  async function handleSignIn() {
-    await signIn.social(
-      {
-        provider: "github",
-      },
-      {
-        onRequest: () => {
-          setLoading(true);
-        },
-
-        onSuccess: () => {
-          setLoading(false);
-        },
-
-        onError: () => {
-          setLoading(false);
-        },
-      },
-    );
-  }
+  useEffect(() => {
+    if (error) {
+      toast.error(error)
+    }
+  }, [error])
 
   return (
-    <Button onClick={handleSignIn} className="flex-1" variant="outline">
+    <Button onClick={login} className="flex-1" variant="outline">
       {loading ? (
         <Spinner />
       ) : (
