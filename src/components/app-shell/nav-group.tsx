@@ -18,9 +18,13 @@ import { ChevronRightIcon } from "lucide-react";
 import { TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Tooltip } from "../ui/tooltip";
 import { useSidebar } from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { CreateWorkSpace } from "@/features/workspaces/components/create-workspace";
 
 export function NavGroup({ label, items }: SidebarNavGroup) {
   const { open } = useSidebar();
+  const pathname = usePathname()
   
   return (
     <SidebarGroup>
@@ -53,12 +57,12 @@ export function NavGroup({ label, items }: SidebarNavGroup) {
                             <TooltipTrigger>
                               <SidebarMenuSubButton
                                 asChild
-                                isActive={subItem.isActive}
+                                isActive={pathname === subItem.path || pathname.startsWith(subItem.path)}
                               >
-                                <a href={subItem.path}>
+                                <Link href={subItem.path}>
                                   {subItem.icon}
                                   <span>{subItem.title}</span>
-                                </a>
+                                </Link>
                               </SidebarMenuSubButton>
                             </TooltipTrigger>
                             <TooltipContent side="right" className={`${open && "opacity-0"}`}>
@@ -73,11 +77,11 @@ export function NavGroup({ label, items }: SidebarNavGroup) {
               ) : (
                 <Tooltip>
                   <TooltipTrigger className="w-full">
-                    <SidebarMenuButton asChild isActive={item.isActive}>
-                      <a href={item.path}>
+                    <SidebarMenuButton asChild isActive={pathname === item.path || pathname.startsWith(item.path)}>
+                      <Link href={item.path}>
                         {item.icon}
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </TooltipTrigger>
                   <TooltipContent side="right" className={`${open && "opacity-0"}`}>

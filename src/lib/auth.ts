@@ -49,7 +49,9 @@ export const auth = betterAuth({
     admin({
       defaultRole: "user",
     }),
-    organization(),
+    organization({
+      allowUserToCreateOrganization: true
+    }),
     nextCookies(),
   ],
   rateLimit: {

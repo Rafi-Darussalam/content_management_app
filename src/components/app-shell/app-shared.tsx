@@ -3,7 +3,7 @@ import { LayoutGridIcon, BarChart3Icon, BriefcaseIcon, UsersIcon, PlugIcon, KeyR
 
 export type SidebarNavItem = {
 	title: string;
-	path?: string;
+	path: string;
 	icon?: ReactNode;
 	isActive?: boolean;
 	subItems?: SidebarNavItem[];
@@ -20,16 +20,15 @@ export const navGroups: SidebarNavGroup[] = [
 		items: [
 			{
 				title: "Dashboard",
-				path: "#/dashboard",
+				path: "/dashboard",
 				icon: (
 					<LayoutGridIcon
 					/>
 				),
-				isActive: true,
 			},
 			{
 				title: "Analytics",
-				path: "#/analytics",
+				path: "/analytics",
 				icon: (
 					<BarChart3Icon
 					/>
@@ -37,7 +36,7 @@ export const navGroups: SidebarNavGroup[] = [
 			},
 			{
 				title: "Projects",
-				path: "#/projects",
+				path: "/projects",
 				icon: (
 					<BriefcaseIcon
 					/>
@@ -49,8 +48,8 @@ export const navGroups: SidebarNavGroup[] = [
 		label: "Workspace",
 		items: [
 			{
-				title: "Team",
-				path: "#/team",
+				title: "Workspaces",
+				path: "/workspaces",
 				icon: (
 					<UsersIcon
 					/>
@@ -58,7 +57,7 @@ export const navGroups: SidebarNavGroup[] = [
 			},
 			{
 				title: "Integrations",
-				path: "#/integrations",
+				path: "/integrations",
 				icon: (
 					<PlugIcon
 					/>
@@ -66,7 +65,7 @@ export const navGroups: SidebarNavGroup[] = [
 			},
 			{
 				title: "API Keys",
-				path: "#/api-keys",
+				path: "/api-keys",
 				icon: (
 					<KeyRoundIcon
 					/>
@@ -79,7 +78,7 @@ export const navGroups: SidebarNavGroup[] = [
 		items: [
 			{
 				title: "Settings",
-				path: "#/settings",
+				path: "/settings",
 				icon: (
 					<SettingsIcon
 					/>
@@ -87,7 +86,7 @@ export const navGroups: SidebarNavGroup[] = [
 			},
 			{
 				title: "Billing",
-				path: "#/billing",
+				path: "/billing",
 				icon: (
 					<CreditCardIcon
 					/>
@@ -100,7 +99,7 @@ export const navGroups: SidebarNavGroup[] = [
 export const footerNavLinks: SidebarNavItem[] = [
 	{
 		title: "Help Center",
-		path: "#/help",
+		path: "/help",
 		icon: (
 			<HelpCircleIcon
 			/>
@@ -108,7 +107,7 @@ export const footerNavLinks: SidebarNavItem[] = [
 	},
 	{
 		title: "Documentation",
-		path: "#/documentation",
+		path: "/documentation",
 		icon: (
 			<BookOpenIcon
 			/>

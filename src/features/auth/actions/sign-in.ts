@@ -4,8 +4,11 @@ import { auth } from "@/lib/auth";
 import { signinSchema } from "../schemas/sign-in";
 import { headers } from "next/headers";
 import { isAPIError } from "better-auth/api";
+import { requireGuest } from "@/lib/auth-guard";
 
 export async function signIn(formData: FormData) {
+  await requireGuest()
+
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,

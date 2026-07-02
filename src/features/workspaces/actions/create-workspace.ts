@@ -1,22 +1,20 @@
 "use server";
-
 import { auth } from "@/lib/auth";
-import { signupSchema } from "../schemas/sign-up";
 import { headers } from "next/headers";
+import { createWorkSpaceSchema } from "../schemas/create-workspace";
+import { v4 as uuidv4 } from "uuid";
 import { isAPIError } from "better-auth/api";
-import { requireGuest } from "@/lib/auth-guard";
+import { requireAuth } from "@/lib/auth-guard";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-export async function signUp(formData: FormData) {
-  await requireGuest()
-
+export async function createWorkspace(formData: FormData) {
+  await requireAuth()
   const data = {
     name: formData.get("name") as string,
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-    confirmPassword: formData.get("confirmPassword") as string,
   };
 
-  const validate = signupSchema.safeParse(data);
+  const validate = createWorkSpaceSchema.safeParse(data);
 
   if (!validate.success) {
     return {
@@ -26,20 +24,18 @@ export async function signUp(formData: FormData) {
   }
 
   try {
-    await auth.api.signUpEmail({
+    await auth.api.createOrganization({
       body: {
         name: data.name,
-        email: data.email,
-        password: data.password,
-        callbackURL: "/dashboard"
+        slug: uuidv4(),
       },
+
       headers: await headers(),
     });
 
     return {
       success: true,
-      message: "Berhasil mambuat akun",
-      email: data.email,
+      message: "Workspace berhasil dibuat",
     };
   } catch (error) {
     if (isAPIError(error)) {

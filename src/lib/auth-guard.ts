@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { notFound } from "next/navigation";
 
-async function requireSession() {
+export async function requireSession() {
     const session = await auth.api.getSession({
         headers: await headers()
     })
@@ -23,7 +23,7 @@ export async function requireGuest() {
     const session = await requireSession()
 
     if (session) {
-        redirect('/')
+        redirect('/dashboard')
     }
 }
 

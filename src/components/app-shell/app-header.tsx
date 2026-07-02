@@ -1,16 +1,26 @@
+"use client"
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DecorIcon } from "@/components/ui/decor-icon";
 import { AppBreadcrumbs } from "@/components/app-shell/app-breadcrumbs";
-import { navLinks } from "@/components/app-shell/app-shared";
 import { CustomSidebarTrigger } from "./custom-sidebar.trigger";
 import { NavUser } from "@/components/app-shell/nav-user";
 import { SendIcon, BellIcon } from "lucide-react";
-
-const activeItem = navLinks.find((item) => item.isActive);
+import { ModeToggle } from "../mode-toggle";
+import { navLinks, SidebarNavItem } from "./app-shared";
+import { usePathname } from "next/navigation";
 
 export function AppHeader() {
+	const pathname = usePathname()
+
+	const activeNavLinks = navLinks.map((item) => ({
+		...item,
+		isActive: pathname === item.path || pathname.startsWith(item.path)
+	}))
+
+	const isActiveLink = activeNavLinks.find((item) => item.isActive) 
+
 	return (
 		<header
 			className={cn(
@@ -25,9 +35,10 @@ export function AppHeader() {
 					className="mr-2 h-4 data-[orientation=vertical]:self-center"
 					orientation="vertical"
 				/>
-				<AppBreadcrumbs page={activeItem} />
+				<AppBreadcrumbs page={isActiveLink} />
 			</div>
 			<div className="flex items-center gap-3">
+				<ModeToggle />
 				<Button size="icon-sm" variant="outline">
 					<SendIcon
 					/>
